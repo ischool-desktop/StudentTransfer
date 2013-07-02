@@ -25,7 +25,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\..\FiscaRuntime\addmodules\StudentTransfer\</OutputPath>
+    <OutputPath>bin\debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -40,15 +40,15 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Aspose.Cells">
-      <HintPath>..\..\..\..\..\ischool\modules\Campus\Aspose.Cells.dll</HintPath>
+      <HintPath>..\..\..\Desktop\FiscaRuntime\modules\Campus\Aspose.Cells.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Aspose.Words">
-      <HintPath>..\..\..\..\..\ischool\modules\Campus\Aspose.Words.dll</HintPath>
+      <HintPath>..\..\..\Desktop\FiscaRuntime\modules\Campus\Aspose.Words.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Campus.Configuration">
-      <HintPath>..\..\..\..\..\ischool\modules\Campus\Campus.Configuration.dll</HintPath>
+      <HintPath>..\..\..\Desktop\FiscaRuntime\modules\Campus\Campus.Configuration.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="DevComponents.DotNetBar2, Version=9.5.0.1, Culture=neutral, PublicKeyToken=7eb7c3a35b91de04, processorArchitecture=MSIL">
@@ -56,47 +56,47 @@
       <HintPath>..\..\..\..\FiscaRuntime\FiscaAE\components\DevComponents.DotNetBar2.dll</HintPath>
     </Reference>
     <Reference Include="FISCA">
-      <HintPath>..\..\..\FiscaRuntime\kernel\FISCA.dll</HintPath>
+      <HintPath>..\..\..\Desktop\FiscaRuntime\kernel\FISCA.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="FISCA.Authentication">
-      <HintPath>..\..\..\..\..\ischool\kernel\FISCA.Authentication.dll</HintPath>
+      <HintPath>..\..\..\Desktop\FiscaRuntime\kernel\FISCA.Authentication.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="FISCA.Core">
-      <HintPath>..\..\..\FiscaRuntime\kernel\FISCA.Core.dll</HintPath>
+      <HintPath>..\..\..\Desktop\FiscaRuntime\kernel\FISCA.Core.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="FISCA.Data">
-      <HintPath>..\..\..\..\..\ischool\kernel\FISCA.Data.dll</HintPath>
+      <HintPath>..\..\..\Desktop\FiscaRuntime\kernel\FISCA.Data.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="FISCA.DSAClient">
-      <HintPath>..\..\..\..\..\ischool\kernel\FISCA.DSAClient.dll</HintPath>
+      <HintPath>..\..\..\Desktop\FiscaRuntime\kernel\FISCA.DSAClient.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="FISCA.LogAgent">
-      <HintPath>..\..\..\FiscaRuntime\kernel\FISCA.LogAgent.dll</HintPath>
+      <HintPath>..\..\..\Desktop\FiscaRuntime\kernel\FISCA.LogAgent.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="FISCA.Permission">
-      <HintPath>..\..\..\..\..\ischool\kernel\FISCA.Permission.dll</HintPath>
+      <HintPath>..\..\..\Desktop\FiscaRuntime\kernel\FISCA.Permission.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="FISCA.Presentation">
-      <HintPath>..\..\..\..\..\ischool\kernel\FISCA.Presentation.dll</HintPath>
+      <HintPath>..\..\..\Desktop\FiscaRuntime\kernel\FISCA.Presentation.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="FISCA.UDT">
-      <HintPath>..\..\..\..\..\ischool\kernel\FISCA.UDT.dll</HintPath>
+      <HintPath>..\..\..\Desktop\FiscaRuntime\kernel\FISCA.UDT.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="K12.Data">
-      <HintPath>..\..\..\..\..\ischool\modules\JHCore\K12.Data.dll</HintPath>
+      <HintPath>..\..\..\Desktop\FiscaRuntime\modules\JHCore\K12.Data.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="K12.Presentation">
-      <HintPath>..\..\..\..\..\ischool\modules\JHCore\K12.Presentation.dll</HintPath>
+      <HintPath>..\..\..\Desktop\FiscaRuntime\modules\JHCore\K12.Presentation.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="System" />
@@ -115,7 +115,9 @@
     <Compile Include="ExamScoreEntity.cs" />
     <Compile Include="ExportToExcel.cs" />
     <Compile Include="ExportToXml.cs" />
-    <Compile Include="GetJHSchoolNames.cs" />
+    <Compile Include="GetJHSchoolNames.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="GetJHSchoolNames.designer.cs">
       <DependentUpon>GetJHSchoolNames.cs</DependentUpon>
     </Compile>
@@ -140,15 +142,21 @@
     <Compile Include="SemesterData.cs" />
     <Compile Include="TokenGenerator.cs" />
     <Compile Include="TransferForms\StatusUIController.cs" />
-    <Compile Include="TransferForms\TransferInStatus.cs" />
+    <Compile Include="TransferForms\TransferInStatus.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="TransferForms\TransferInStatus.Designer.cs">
       <DependentUpon>TransferInStatus.cs</DependentUpon>
     </Compile>
-    <Compile Include="TransferInRequire.cs" />
+    <Compile Include="TransferInRequire.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="TransferInRequire.Designer.cs">
       <DependentUpon>TransferInRequire.cs</DependentUpon>
     </Compile>
-    <Compile Include="TransferIn\AddTransStudCourse.cs" />
+    <Compile Include="TransferIn\AddTransStudCourse.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="TransferIn\AddTransStudCourse.designer.cs">
       <DependentUpon>AddTransStudCourse.cs</DependentUpon>
     </Compile>
@@ -157,58 +165,84 @@
       <DependentUpon>AddTransStudCourseScore.cs</DependentUpon>
     </Compile>
     <Compile Include="TransferIn\AttendCourseEntity.cs" />
-    <Compile Include="TransferIn\ImportDataForm.cs" />
+    <Compile Include="TransferIn\ImportDataForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="TransferIn\ImportDataForm.Designer.cs">
       <DependentUpon>ImportDataForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="TransferIn\ImportDataOptions.cs" />
+    <Compile Include="TransferIn\ImportDataOptions.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="TransferIn\ImportDataOptions.Designer.cs">
       <DependentUpon>ImportDataOptions.cs</DependentUpon>
     </Compile>
-    <Compile Include="TransferIn\StudentBrief.cs" />
+    <Compile Include="TransferIn\StudentBrief.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="TransferIn\StudentBrief.Designer.cs">
       <DependentUpon>StudentBrief.cs</DependentUpon>
     </Compile>
-    <Compile Include="TransferIn\UpdateRecord.cs" />
+    <Compile Include="TransferIn\UpdateRecord.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="TransferIn\UpdateRecord.Designer.cs">
       <DependentUpon>UpdateRecord.cs</DependentUpon>
     </Compile>
-    <Compile Include="TransferIn\Welcome.cs" />
+    <Compile Include="TransferIn\Welcome.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="TransferIn\Welcome.Designer.cs">
       <DependentUpon>Welcome.cs</DependentUpon>
     </Compile>
     <Compile Include="TransferOutReport.cs" />
-    <Compile Include="TransferOut\FinalStep.cs" />
+    <Compile Include="TransferOut\FinalStep.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="TransferOut\FinalStep.Designer.cs">
       <DependentUpon>FinalStep.cs</DependentUpon>
     </Compile>
     <Compile Include="Consts.cs" />
-    <Compile Include="TransferOut\ExportDataOptions.cs" />
+    <Compile Include="TransferOut\ExportDataOptions.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="TransferOut\ExportDataOptions.Designer.cs">
       <DependentUpon>ExportDataOptions.cs</DependentUpon>
     </Compile>
-    <Compile Include="TransferOut\GenerateData.cs" />
+    <Compile Include="TransferOut\GenerateData.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="TransferOut\GenerateData.Designer.cs">
       <DependentUpon>GenerateData.cs</DependentUpon>
     </Compile>
     <Compile Include="Processors\StudentBrief.cs" />
-    <Compile Include="TransferOut\StudentTag.cs" />
+    <Compile Include="TransferOut\StudentTag.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="TransferOut\StudentTag.Designer.cs">
       <DependentUpon>StudentTag.cs</DependentUpon>
     </Compile>
-    <Compile Include="TransferOut\UpdateRecord.cs" />
+    <Compile Include="TransferOut\UpdateRecord.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="TransferOut\UpdateRecord.Designer.cs">
       <DependentUpon>UpdateRecord.cs</DependentUpon>
     </Compile>
-    <Compile Include="TransferOut\Welcome.cs" />
+    <Compile Include="TransferOut\Welcome.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="TransferOut\Welcome.Designer.cs">
       <DependentUpon>Welcome.cs</DependentUpon>
     </Compile>
-    <Compile Include="TransferForms\StatusForm.cs" />
+    <Compile Include="TransferForms\StatusForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="TransferForms\StatusForm.Designer.cs">
       <DependentUpon>StatusForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="TransferForms\TransferOutStatus.cs" />
+    <Compile Include="TransferForms\TransferOutStatus.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="TransferForms\TransferOutStatus.Designer.cs">
       <DependentUpon>TransferOutStatus.cs</DependentUpon>
     </Compile>
