@@ -145,4 +145,7 @@
   <data name="_轉出_image_size_up_64" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\(轉出)image_size_up_64.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="live_update_up_128" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\live_update_up_128.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>

@@ -71,6 +71,10 @@
       <HintPath>..\..\..\Desktop\FiscaRuntime\kernel\FISCA.Data.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="FISCA.Deployment">
+      <HintPath>..\..\..\Desktop\FiscaRuntime\kernel\FISCA.Deployment.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="FISCA.DSAClient">
       <HintPath>..\..\..\Desktop\FiscaRuntime\kernel\FISCA.DSAClient.dll</HintPath>
       <Private>False</Private>
@@ -110,6 +114,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CardDataSync\JHSchoolSelector.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CardDataSync\JHSchoolSelector.Designer.cs">
+      <DependentUpon>JHSchoolSelector.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CardDataSync\ManualSync.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CardDataSync\ManualSync.Designer.cs">
+      <DependentUpon>ManualSync.cs</DependentUpon>
+    </Compile>
     <Compile Include="DALTransfer.cs" />
     <Compile Include="DGValueManager.cs" />
     <Compile Include="ExamScoreEntity.cs" />
@@ -258,6 +274,12 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="CardDataSync\JHSchoolSelector.resx">
+      <DependentUpon>JHSchoolSelector.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CardDataSync\ManualSync.resx">
+      <DependentUpon>ManualSync.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GetJHSchoolNames.resx">
       <DependentUpon>GetJHSchoolNames.cs</DependentUpon>
     </EmbeddedResource>
@@ -331,6 +353,7 @@
     <None Include="Resources\%28轉出%29image_size_up_64.png" />
     <None Include="Resources\%28轉入%29mask_add_64.png" />
     <Content Include="Resources\ExportNameMap.xml" />
+    <Content Include="Resources\live_update_up_128.png" />
     <Content Include="Resources\Options.xml" />
     <Content Include="Resources\StudentFields.xml" />
   </ItemGroup>

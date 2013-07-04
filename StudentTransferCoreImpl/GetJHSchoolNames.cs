@@ -39,7 +39,8 @@ namespace StudentTransferCoreImpl
             XmlDocument doc = new XmlDocument();
             doc.LoadXml(StudentTransferCoreImpl.Properties.Resources.jh);
             //doc.LoadXml(cd["XmlData"]);
-            foreach (XmlElement xe in doc.SelectSingleNode("SchoolList"))
+            XmlElement docelm = doc.DocumentElement;
+            foreach (XmlElement xe in docelm.SelectNodes("School"))
             {
                 SchoolListEntity sle = new SchoolListEntity();
                 sle.Name = xe.GetAttribute("Name");

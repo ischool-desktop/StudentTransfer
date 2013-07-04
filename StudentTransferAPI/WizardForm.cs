@@ -18,6 +18,9 @@ namespace StudentTransferAPI
         {
             InitializeComponent();
 
+            if (Site != null && Site.DesignMode)
+                return;
+
             Arguments = args;
             CurrentStep = Arguments.TryGetInteger("CurrentStep", 1);
             TotalStep = Arguments.TryGetInteger("TotalStep", 1);
