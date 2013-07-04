@@ -10,6 +10,9 @@ using Campus;
 using FISCA;
 using K12.Data;
 using StudentTransferAPI;
+using FISCA.DSAClient;
+using FISCA.Authentication;
+using System.Xml.XPath;
 
 namespace StudentTransferCoreImpl.TransferIn
 {
@@ -98,7 +101,7 @@ namespace StudentTransferCoreImpl.TransferIn
                 else
                     FillStudentNumberLast(string.Empty);
 
-               
+
 
                 if (SRecord == null)
                     SingleMode();
@@ -279,7 +282,7 @@ namespace StudentTransferCoreImpl.TransferIn
             }
             catch (Exception e)
             {
-                return new HashSet<int>(); 
+                return new HashSet<int>();
             }
         }
         #endregion
@@ -323,7 +326,7 @@ namespace StudentTransferCoreImpl.TransferIn
             if (string.IsNullOrWhiteSpace(stuBrief["@ID"])) //沒有執行過轉入流程。
             {
                 //根據身份證字號來查詢
-                Tuple<StudentRecord,AddressRecord> Record = QueryByIDNumber(stuBrief.IDNumber);
+                Tuple<StudentRecord, AddressRecord> Record = QueryByIDNumber(stuBrief.IDNumber);
 
                 SRecord = Record.Item1;
                 ARecord = Record.Item2;
@@ -359,7 +362,7 @@ namespace StudentTransferCoreImpl.TransferIn
         /// </summary>
         /// <param name="student"></param>
         /// <param name="address"></param>
-        private void FromTransferData(dynamic student,dynamic address)
+        private void FromTransferData(dynamic student, dynamic address)
         {
             txtName.Text = student.Name;
             txtIDNumber.Text = student.IDNumber;
@@ -396,7 +399,7 @@ namespace StudentTransferCoreImpl.TransferIn
         /// <summary>
         /// 從資料庫中查詢該身分證號的學生，如果不存在則回傳 Null。
         /// </summary>
-        private Tuple<StudentRecord,AddressRecord> QueryByIDNumber(string idNumber)
+        private Tuple<StudentRecord, AddressRecord> QueryByIDNumber(string idNumber)
         {
             //除了刪除狀況的學生。
             string cmd = "select id,name,id_number,status from student where id_number='{0}' and status !=256";
@@ -414,7 +417,7 @@ namespace StudentTransferCoreImpl.TransferIn
                 return new Tuple<StudentRecord, AddressRecord>(vSRecord, vARecord);
             }
             else
-                return new Tuple<StudentRecord,AddressRecord>(null,null);
+                return new Tuple<StudentRecord, AddressRecord>(null, null);
         }
 
         protected override ContinueDirection? OnNextButtonClick()
@@ -459,20 +462,20 @@ namespace StudentTransferCoreImpl.TransferIn
                 paddress.Element("Area").Value = txtArea.Text;
                 paddress.Element("DetailAddress").Value = txtDetail.Text;
 
-               //<StudentComplete Processor="StudentComplete">
-               // <PermanentAddress>
-               //   <AddressList>
-               //     <Address>
-               //       <ZipCode>310</ZipCode>
-               //       <County>新竹縣</County>
-               //       <Town>竹東鎮</Town>
-               //       <District />
-               //       <Area />
-               //       <DetailAddress>北岸19號</DetailAddress>
-               //     </Address>
-               //   </AddressList>
-               // </PermanentAddress>
-               // </StudentComplete>
+                //<StudentComplete Processor="StudentComplete">
+                // <PermanentAddress>
+                //   <AddressList>
+                //     <Address>
+                //       <ZipCode>310</ZipCode>
+                //       <County>新竹縣</County>
+                //       <Town>竹東鎮</Town>
+                //       <District />
+                //       <Area />
+                //       <DetailAddress>北岸19號</DetailAddress>
+                //     </Address>
+                //   </AddressList>
+                // </PermanentAddress>
+                // </StudentComplete>
 
                 if (SRecord != null)
                 {
@@ -495,6 +498,11 @@ namespace StudentTransferCoreImpl.TransferIn
 
                     student.SetAttributeValue("ID", SRecord.ID); //將 Xml 上標示新增的學生編號。
                     Arguments[Consts.StudentID] = SRecord.ID;
+
+                    //新竹市的國中，需要多呼叫數位學生證資料同步的 Service。
+                    //新增的狀態下才呼叫，以免重覆呼叫。
+                    if (Program.CurrentMode == Program.Hsinchu)
+                        CallTransferInWS();
                 }
                 else
                 {
@@ -591,5 +599,70 @@ namespace StudentTransferCoreImpl.TransferIn
         {
             cboClass.SelectedIndex = cboClass.FindString(cboClass.Text);
         }
+
+        #region 新竹市專用 WS Call
+        private void CallTransferInWS()
+        {
+            TransferInRecord record = Record;
+
+            try
+            {
+                string contract = "StudentTransferHsinchuSpecial";
+                string service = "SyncTransferIn";
+
+                SecurityToken token = (DSAServices.DefaultDataSource.SecurityToken as SessionToken).OriginToken;
+                Connection conn = DSAServices.DefaultDataSource.AsContract(contract, token);
+                XElement econtent = XElement.Parse(record.ModifiedContent);
+
+                FISCA.DSAClient.XmlHelper req = new FISCA.DSAClient.XmlHelper("<Request/>");
+                req.AddElement(".", "TargetSchool", GetSchoolCode());
+                req.AddElement(".", "Writer", string.Format("{0}:{1}", DSAServices.AccessPoint, DSAServices.UserAccount));
+                req.AddElement(".", "StudentID", econtent.XPathSelectElement("Student").ElementText("IDNumber"));
+                req.AddElement(".", "StudentNumber", SRecord.StudentNumber);
+                req.AddElement(".", "Grade", SRecord.Class.GradeYear + "");
+                req.AddElement(".", "ClassName", SRecord.Class.Name.Substring(1));
+
+                RTOut.WriteLine(req.XmlString);
+                RTOut.WriteLine(conn.SendRequest(service, new Envelope(req)).XmlString);
+            }
+            catch (Exception ex)
+            {
+                RTOut.WriteError(ex);
+            }
+        }
+
+        private static string FormatBirthday(XElement econtent)
+        {
+            string strBirthday = econtent.XPathSelectElement("Student").ElementText("Birthdate");
+            string formatedBirthday = "";
+            DateTime birthday;
+
+            if (DateTime.TryParse(strBirthday, out birthday))
+                formatedBirthday = string.Format("{0:0000}{1:00}{2:00}", birthday.Year, birthday.Month, birthday.Day);
+
+            return formatedBirthday;
+        }
+
+        private static string GetSchoolCode()
+        {
+            string code = "000000";
+
+            //診斷模式時，固定使用「培英國中」測試。
+            if (RTContext.ConstantDefined("Debug"))
+                code = "183502";
+
+            XElement schools = XElement.Parse(Properties.Resources.jh);
+
+            var result = from school in schools.Elements()
+                         where school.AttributeText("DSNS") == DSAServices.AccessPoint
+                         select school.AttributeText("Code");
+
+            foreach (string school in result)
+                code = school;
+
+
+            return code;
+        }
+        #endregion
     }
 }

@@ -709,19 +709,20 @@
   <School Name="市立八斗高中附設國中部" Code="173514" County="基隆市" />
   <School Name="市立碇內國中" Code="173515" County="基隆市" />
   <School Name="市立武崙國中" Code="173516" County="基隆市" />
-  <School Name="私立矽谷國中(小)" Code="181501" County="新竹市" />
-  <School Name="市立建華國中" Code="183501" County="新竹市" />
-  <School Name="市立培英國中" Code="183502" County="新竹市" />
-  <School Name="市立光華國中" Code="183503" County="新竹市" />
-  <School Name="市立育賢國中" Code="183504" County="新竹市" />
-  <School Name="市立光武國中" Code="183505" County="新竹市" />
-  <School Name="市立南華國中" Code="183508" County="新竹市" />
-  <School Name="市立富禮國中" Code="183509" County="新竹市" />
-  <School Name="市立三民國中" Code="183510" County="新竹市" />
-  <School Name="市立內湖國中" Code="183511" County="新竹市" />
-  <School Name="市立虎林國中" Code="183512" County="新竹市" />
-  <School Name="市立新科國中" Code="183514" County="新竹市" />
-  <School Name="市立竹光國中" Code="183515" County="新竹市" />
+  <School Name="私立矽谷國中(小)" Code="181501" County="新竹市" DSNS="junior.sagor.hc.edu.tw"/>
+  <School Name="市立建華國中" Code="183501" County="新竹市" DSNS="chjh.hc.edu.tw"/>
+  <School Name="市立培英國中" Code="183502" County="新竹市" DSNS="pijh.hc.edu.tw"/>
+  <School Name="市立光華國中" Code="183503" County="新竹市" DSNS="khjh.hc.edu.tw"/>
+  <School Name="市立育賢國中" Code="183504" County="新竹市"  DSNS="ysjh.hc.edu.tw"/>
+  <School Name="市立光武國中" Code="183505" County="新竹市" DSNS="gwjh.hc.edu.tw"/>
+  <School Name="市立南華國中" Code="183508" County="新竹市" DSNS="nhjh.hc.edu.tw"/>
+  <School Name="市立富禮國中" Code="183509" County="新竹市" DSNS="fljh.hc.edu.tw"/>
+  <School Name="市立三民國中" Code="183510" County="新竹市" DSNS="smjh.hc.edu.tw"/>
+  <School Name="市立內湖國中" Code="183511" County="新竹市" DSNS="nhjhs.hc.edu.tw"/>
+  <School Name="市立虎林國中" Code="183512" County="新竹市" DSNS="hljh.hc.edu.tw"/>
+  <School Name="市立新科國中" Code="183514" County="新竹市" DSNS="hkjh.hc.edu.tw"/>
+  <School Name="市立竹光國中" Code="183515" County="新竹市" DSNS="zgjh.hc.edu.tw"/>
+  <!--<School Name="市立澔學國中" Code="183501" County="新竹市" DSNS="dev.jh_hs"/>-->
   <School Name="市立大業國中" Code="203501" County="嘉義市" />
   <School Name="市立北興國中" Code="203502" County="嘉義市" />
   <School Name="市立嘉義國中" Code="203503" County="嘉義市" />
@@ -922,12 +923,12 @@
   <School Name="市立安樂高中附設國中" Code="173306" County="基隆市" />
   <School Name="市立暖暖高中附設國中" Code="173307" County="基隆市" />
   <School Name="國立科學工業園區實驗高中附設國中" Code="180301" County="新竹市" />
-  <School Name="私立光復高中附設國中" Code="181305" County="新竹市" />
+  <School Name="私立光復高中附設國中" Code="181305" County="新竹市" DSNS="j.kfsh.hc.edu.tw"/>
   <School Name="私立曙光女中附設國中" Code="181306" County="新竹市" />
-  <School Name="私立磐石高中附設國中" Code="181307" County="新竹市" />
-  <School Name="市立成德高中附設國中" Code="183306" County="新竹市" />
-  <School Name="市立香山高中附設國中" Code="183307" County="新竹市" />
-  <School Name="市立建功高中附設國中" Code="183313" County="新竹市" />
+  <School Name="私立磐石高中附設國中" Code="181307" County="新竹市" DSNS="j.sphs.hc.edu.tw"/>
+  <School Name="市立成德高中附設國中" Code="183306" County="新竹市" DSNS="j.cdjh.hc.edu.tw"/>
+  <School Name="市立香山高中附設國中" Code="183307" County="新竹市" DSNS="j.hhjh.hc.edu.tw"/>
+  <School Name="市立建功高中附設國中" Code="183313" County="新竹市" DSNS="j.ckjh.hc.edu.tw"/>
   <School Name="私立興華高中附設國中" Code="201304" County="嘉義市" />
   <School Name="私立嘉華高中附設國中" Code="201310" County="嘉義市" />
   <School Name="私立輔仁高中附設國中" Code="201312" County="嘉義市" />

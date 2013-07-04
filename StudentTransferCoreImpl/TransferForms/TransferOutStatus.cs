@@ -10,6 +10,10 @@ using FISCA.Presentation.Controls;
 using FISCA.Authentication;
 using FISCA.UDT;
 using DevComponents.DotNetBar;
+using FISCA.DSAClient;
+using FISCA;
+using System.Xml.Linq;
+using System.Xml.XPath;
 
 namespace StudentTransferCoreImpl
 {
@@ -80,6 +84,9 @@ namespace StudentTransferCoreImpl
                     Item.Status = 3;
                     RefreshGridData();
                     ButtonToConfirmedStatus();
+
+                    if (Program.CurrentMode == Program.Hsinchu)
+                        CallTransferOutWS(record);
                 }
                 else
                     throw new ArgumentException("爆炸!");
@@ -89,6 +96,67 @@ namespace StudentTransferCoreImpl
                 FISCA.RTOut.WriteError(ex);
                 MessageBox.Show(ex.Message);
             }
+        }
+
+        private void CallTransferOutWS(TransferOutRecord record)
+        {
+            try
+            {
+                string contract = "StudentTransferHsinchuSpecial";
+                string service = "SyncTrasnferOut";
+
+                SecurityToken token = (DSAServices.DefaultDataSource.SecurityToken as SessionToken).OriginToken;
+                Connection conn = DSAServices.DefaultDataSource.AsContract(contract, token);
+                XElement econtent = XElement.Parse(record.Content);
+
+                XmlHelper req = new XmlHelper("<Request/>");
+                req.AddElement(".", "Name", econtent.XPathSelectElement("Student/Name").Value);
+                req.AddElement(".", "StudentID", econtent.XPathSelectElement("Student").ElementText("IDNumber"));
+                req.AddElement(".", "TargetSchool", GetSchoolCode(record));
+                req.AddElement(".", "Writer", string.Format("{0}:{1}", DSAServices.AccessPoint, DSAServices.UserAccount));
+                req.AddElement(".", "Birthday", FormatBirthday(econtent));
+
+                RTOut.WriteLine(req.XmlString);
+                RTOut.WriteLine(conn.SendRequest(service, new Envelope(req)).XmlString);
+            }
+            catch (Exception ex)
+            {
+                RTOut.WriteError(ex);
+            }
+        }
+
+        private string FormatBirthday(XElement econtent)
+        {
+            string strBirthday = econtent.XPathSelectElement("Student").ElementText("Birthdate");
+            string formatedBirthday = "";
+            DateTime birthday;
+
+            if (DateTime.TryParse(strBirthday, out birthday))
+                formatedBirthday = string.Format("{0:0000}{1:00}{2:00}", birthday.Year, birthday.Month, birthday.Day);
+
+            return formatedBirthday;
+        }
+
+        private string GetSchoolCode(TransferOutRecord record)
+        {
+            string code = "000000";
+
+
+            //診斷模式時，固定使用「培英國中」測試。
+            if (RTContext.ConstantDefined("Debug"))
+                code = "183502";
+
+            XElement schools = XElement.Parse(Properties.Resources.jh);
+
+            var result = from school in schools.Elements()
+                         where school.AttributeText("DSNS") == record.TransferTarget
+                         select school.AttributeText("Code");
+
+            foreach (string school in result)
+                code = school;
+
+
+            return code;
         }
     }
 }

@@ -17,6 +17,10 @@ namespace StudentTransferCoreImpl
     {
         public static bool Debug { get; internal set; }
 
+        public static string CurrentMode { get; internal set; }
+
+        public const string Hsinchu = "Hsinchu";
+
         #region Wizard Codes
         public static string FC_TransferOutWizard = "ischool/國中系統/共同/學籍/學生/線上轉學精靈-轉出";
 
@@ -37,8 +41,19 @@ namespace StudentTransferCoreImpl
 
             #region 註冊權限代碼
             FISCA.Permission.Catalog Catalog = FISCA.Permission.RoleAclSource.Instance["學生"]["功能按鈕"];
-            Catalog.Add(new RibbonFeature(TransferPermission , "轉學"));
+            Catalog.Add(new RibbonFeature(TransferPermission, "轉學"));
             #endregion
+
+            try
+            {
+                CurrentMode = "";
+
+                if (RTContext.ConstantDefined("Hsinchu"))
+                    CurrentMode = Hsinchu;
+                else
+                    CurrentMode = Module.GetCurrentModule().GetDeployParametsers()["Mode"];
+            }
+            catch { }
 
             try
             {
@@ -88,6 +103,25 @@ namespace StudentTransferCoreImpl
             {
                 Features.Invoke(FC_TransferStatusConfirm);
             };
+
+            //目前不需要
+            //https://mail.google.com/mail/u/0/?ui=2&shva=1#inbox/13f31ee7ccb88c82
+            //if (CurrentMode == Hsinchu)
+            //{
+            //    K12.Presentation.NLDPanels.Student.SelectedSourceChanged += delegate
+            //    {
+            //        NLDPanels.Student.RibbonBarItems["數位學生證"]["手動資料同步"].Enable =
+            //            K12.Presentation.NLDPanels.Student.SelectedSource.Count == 1;
+            //    };
+
+            //    NLDPanels.Student.RibbonBarItems["數位學生證"]["手動資料同步"].Enable = false;
+            //    NLDPanels.Student.RibbonBarItems["數位學生證"]["手動資料同步"].Size = FISCA.Presentation.RibbonBarButton.MenuButtonSize.Large;
+            //    NLDPanels.Student.RibbonBarItems["數位學生證"]["手動資料同步"].Image = Resources.live_update_up_128;
+            //    NLDPanels.Student.RibbonBarItems["數位學生證"]["手動資料同步"].Click += delegate
+            //    {
+            //        new StudentTransferCoreImpl.CardDataSync.ManualSync().ShowDialog();
+            //    };
+            //}
             #endregion
 
             //轉學狀態確認。
@@ -139,6 +173,7 @@ namespace StudentTransferCoreImpl
             {
                 return new TransferOut.GenerateData(args).ShowWizardDialog();
             });
+
             //列印綜合資料轉移證明單
             Features.Register(transferOuts[transferOutStep++], args =>
             {
@@ -200,8 +235,8 @@ namespace StudentTransferCoreImpl
             #endregion
 
             //檢查是否有需要使用者確認的狀態
-           if (FISCA.Permission.UserAcl.Current[TransferPermission].Executable)
-            CheckConfirmStatus();
+            if (FISCA.Permission.UserAcl.Current[TransferPermission].Executable)
+                CheckConfirmStatus();
         }
 
         /// <summary>
@@ -236,9 +271,9 @@ namespace StudentTransferCoreImpl
                     StringBuilder strBuilder = new StringBuilder();
 
                     if (outTable.Rows.Count > 0)
-                        MessageBox.Show("有學校要求取得轉出學生資料，"+System.Environment.NewLine+"請至「轉入/轉出確認」功能中進行確認。");
+                        MessageBox.Show("有學校要求取得轉出學生資料，" + System.Environment.NewLine + "請至「轉入/轉出確認」功能中進行確認。");
 
-                    if (inTable.Rows.Count>0)
+                    if (inTable.Rows.Count > 0)
                         MessageBox.Show("他校已同意取得轉入學生資料，" + System.Environment.NewLine + "請至「轉入/轉出確認」功能中進行轉入作業。");
 
                 }, TaskScheduler.FromCurrentSynchronizationContext());
@@ -247,7 +282,7 @@ namespace StudentTransferCoreImpl
             {
                 FISCA.RTOut.WriteError(ex);
                 MessageBox.Show(ex.Message, "線上轉學功能提醒");
-            } 
+            }
         }
 
         private static string[] GetInvocationCodes(string prefix, int count)
