@@ -498,17 +498,17 @@ namespace StudentTransferCoreImpl.TransferIn
 
                     student.SetAttributeValue("ID", SRecord.ID); //將 Xml 上標示新增的學生編號。
                     Arguments[Consts.StudentID] = SRecord.ID;
-
-                    //新竹市的國中，需要多呼叫數位學生證資料同步的 Service。
-                    //新增的狀態下才呼叫，以免重覆呼叫。
-                    if (Program.CurrentMode == Program.Hsinchu)
-                        CallTransferInWS();
                 }
                 else
                 {
                     SRecord = new StudentRecord();
                     UpdateData(SRecord);
                     string newid = K12.Data.Student.Insert(SRecord);
+
+                    //新竹市的國中，需要多呼叫數位學生證資料同步的 Service。
+                    //新增的狀態下才呼叫，以免重覆呼叫。
+                    if (Program.CurrentMode == Program.Hsinchu)
+                        CallTransferInWS();
 
                     #region 更新學生地址
                     ARecord = K12.Data.Address.SelectByStudentID(newid);
@@ -646,10 +646,6 @@ namespace StudentTransferCoreImpl.TransferIn
         private static string GetSchoolCode()
         {
             string code = "000000";
-
-            //診斷模式時，固定使用「培英國中」測試。
-            if (RTContext.ConstantDefined("Debug"))
-                code = "183502";
 
             XElement schools = XElement.Parse(Properties.Resources.jh);
 

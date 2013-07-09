@@ -141,11 +141,6 @@ namespace StudentTransferCoreImpl
         {
             string code = "000000";
 
-
-            //診斷模式時，固定使用「培英國中」測試。
-            if (RTContext.ConstantDefined("Debug"))
-                code = "183502";
-
             XElement schools = XElement.Parse(Properties.Resources.jh);
 
             var result = from school in schools.Elements()
