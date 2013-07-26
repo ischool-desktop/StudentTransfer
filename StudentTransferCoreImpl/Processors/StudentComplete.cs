@@ -79,7 +79,7 @@ namespace StudentTransferCoreImpl.Processors
                     if (string.IsNullOrWhiteSpace(fieldData.Value))
                         fieldList.Add(string.Format("{0}=null", physical));
                     else
-                        fieldList.Add(string.Format("{0}='{1}'", physical, fieldData.Value));
+                        fieldList.Add(string.Format("{0}='{1}'", physical, fieldData.Value.Replace("'", "''")));
                 }
             }
 
