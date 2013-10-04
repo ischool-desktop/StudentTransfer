@@ -67,11 +67,7 @@ namespace StudentTransferCoreImpl.TransferIn
                 XmlData = Arguments[Consts.XmlData] as XElement;
                 dynamic briefSection = (XmlObject)XmlData.Element("Student");
                 //取得地址資料
-                dynamic permanentAddress = (XmlObject)XmlData
-                    .Element("StudentComplete")
-                    .Element("PermanentAddress")
-                    .Element("AddressList")
-                    .Element("Address");
+                dynamic permanentAddress = GetAddressData();
                 //<PermanentAddress>
                 //  <AddressList>
                 //    <Address>
@@ -160,6 +156,25 @@ namespace StudentTransferCoreImpl.TransferIn
                 WizardResult = ContinueDirection.Cancel;
                 Close();
             }
+        }
+
+        private dynamic GetAddressData()
+        {
+            XElement temp = XmlData.Element("StudentComplete");
+
+            if (temp != null)
+                temp = temp.Element("PermanentAddress");
+
+            if (temp != null)
+                temp = temp.Element("AddressList");
+
+            if (temp != null)
+                temp = temp.Element("Address");
+
+            if (temp == null)
+                return new XmlObject("Address");
+            else
+                return (XmlObject)temp;
         }
 
         protected override void OnRunningChanged()
@@ -452,16 +467,33 @@ namespace StudentTransferCoreImpl.TransferIn
                 XElement paddress = XmlData
                     .Element("StudentComplete")
                     .Element("PermanentAddress")
-                    .Element("AddressList")
-                    .Element("Address");
+                    .Element("AddressList");
 
-                paddress.Element("ZipCode").Value = txtZipCode.Text;
-                paddress.Element("County").Value = cmbCounty.Text;
-                paddress.Element("Town").Value = cmbTown.Text;
-                paddress.Element("District").Value = txtDistrict.Text;
-                paddress.Element("Area").Value = txtArea.Text;
-                paddress.Element("DetailAddress").Value = txtDetail.Text;
+                if (paddress != null)
+                {
+                    paddress = paddress.Element("Address");
 
+                    paddress.Element("ZipCode").Value = txtZipCode.Text;
+                    paddress.Element("County").Value = cmbCounty.Text;
+                    paddress.Element("Town").Value = cmbTown.Text;
+                    paddress.Element("District").Value = txtDistrict.Text;
+                    paddress.Element("Area").Value = txtArea.Text;
+                    paddress.Element("DetailAddress").Value = txtDetail.Text;
+                }
+                else
+                {
+                    paddress = new XElement("Address");
+                    paddress.Add(new XElement("ZipCode", txtZipCode.Text));
+                    paddress.Add(new XElement("County", cmbCounty.Text));
+                    paddress.Add(new XElement("Town", cmbTown.Text));
+                    paddress.Add(new XElement("District", txtDistrict.Text));
+                    paddress.Add(new XElement("Area", txtArea.Text));
+                    paddress.Add(new XElement("DetailAddress", txtZipCode.Text));
+
+                    XmlData
+                        .Element("StudentComplete")
+                        .Element("PermanentAddress").Add(new XElement("AddressList", paddress));
+                }
                 //<StudentComplete Processor="StudentComplete">
                 // <PermanentAddress>
                 //   <AddressList>
