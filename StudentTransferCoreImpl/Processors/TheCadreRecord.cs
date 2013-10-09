@@ -93,6 +93,9 @@ namespace StudentTransferCoreImpl.Processors
 
             try
             {
+                string cmd = string.Format(@"delete from $behavior.thecadre where StudentID='{0}'", StudentId);
+                Update.Execute(cmd);
+
                 List<string> result = NewSchools.SaveAll();
             }
             catch (Exception e)

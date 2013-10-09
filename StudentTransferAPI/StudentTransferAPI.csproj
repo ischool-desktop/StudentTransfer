@@ -44,20 +44,20 @@
       <SpecificVersion>False</SpecificVersion>
     </Reference>
     <Reference Include="FISCA">
-      <HintPath>..\..\..\Desktop\FiscaRuntime\kernel\FISCA.dll</HintPath>
+      <HintPath>..\..\..\Desktop\ischool desktop\kernel\FISCA.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="FISCA.Data">
-      <HintPath>..\..\..\Desktop\FiscaRuntime\kernel\FISCA.Data.dll</HintPath>
+      <HintPath>..\..\..\Desktop\ischool desktop\kernel\FISCA.Data.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="FISCA.Presentation, Version=1.1.0.15, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\Desktop\FiscaRuntime\kernel\FISCA.Presentation.dll</HintPath>
+      <HintPath>..\..\..\Desktop\ischool desktop\kernel\FISCA.Presentation.dll</HintPath>
       <SpecificVersion>False</SpecificVersion>
       <Private>False</Private>
     </Reference>
     <Reference Include="FISCA.UDT">
-      <HintPath>..\..\..\Desktop\FiscaRuntime\kernel\FISCA.UDT.dll</HintPath>
+      <HintPath>..\..\..\Desktop\ischool desktop\kernel\FISCA.UDT.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="System" />

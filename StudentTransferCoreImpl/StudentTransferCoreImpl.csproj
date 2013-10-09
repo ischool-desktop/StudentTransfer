@@ -40,15 +40,15 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Aspose.Cells">
-      <HintPath>..\..\..\Desktop\FiscaRuntime\modules\Campus\Aspose.Cells.dll</HintPath>
+      <HintPath>..\..\..\Desktop\ischool desktop\modules\Campus\Aspose.Cells.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Aspose.Words">
-      <HintPath>..\..\..\Desktop\FiscaRuntime\modules\Campus\Aspose.Words.dll</HintPath>
+      <HintPath>..\..\..\Desktop\ischool desktop\modules\Campus\Aspose.Words.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Campus.Configuration">
-      <HintPath>..\..\..\Desktop\FiscaRuntime\modules\Campus\Campus.Configuration.dll</HintPath>
+      <HintPath>..\..\..\Desktop\ischool desktop\modules\Campus\Campus.Configuration.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="DevComponents.DotNetBar2, Version=9.5.0.1, Culture=neutral, PublicKeyToken=7eb7c3a35b91de04, processorArchitecture=MSIL">
@@ -56,51 +56,51 @@
       <HintPath>..\..\..\..\FiscaRuntime\FiscaAE\components\DevComponents.DotNetBar2.dll</HintPath>
     </Reference>
     <Reference Include="FISCA">
-      <HintPath>..\..\..\Desktop\FiscaRuntime\kernel\FISCA.dll</HintPath>
+      <HintPath>..\..\..\Desktop\ischool desktop\kernel\FISCA.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="FISCA.Authentication">
-      <HintPath>..\..\..\Desktop\FiscaRuntime\kernel\FISCA.Authentication.dll</HintPath>
+      <HintPath>..\..\..\Desktop\ischool desktop\kernel\FISCA.Authentication.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="FISCA.Core">
-      <HintPath>..\..\..\Desktop\FiscaRuntime\kernel\FISCA.Core.dll</HintPath>
+      <HintPath>..\..\..\Desktop\ischool desktop\kernel\FISCA.Core.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="FISCA.Data">
-      <HintPath>..\..\..\Desktop\FiscaRuntime\kernel\FISCA.Data.dll</HintPath>
+      <HintPath>..\..\..\Desktop\ischool desktop\kernel\FISCA.Data.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="FISCA.Deployment">
-      <HintPath>..\..\..\Desktop\FiscaRuntime\kernel\FISCA.Deployment.dll</HintPath>
+      <HintPath>..\..\..\Desktop\ischool desktop\kernel\FISCA.Deployment.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="FISCA.DSAClient">
-      <HintPath>..\..\..\Desktop\FiscaRuntime\kernel\FISCA.DSAClient.dll</HintPath>
+      <HintPath>..\..\..\Desktop\ischool desktop\kernel\FISCA.DSAClient.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="FISCA.LogAgent">
-      <HintPath>..\..\..\Desktop\FiscaRuntime\kernel\FISCA.LogAgent.dll</HintPath>
+      <HintPath>..\..\..\Desktop\ischool desktop\kernel\FISCA.LogAgent.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="FISCA.Permission">
-      <HintPath>..\..\..\Desktop\FiscaRuntime\kernel\FISCA.Permission.dll</HintPath>
+      <HintPath>..\..\..\Desktop\ischool desktop\kernel\FISCA.Permission.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="FISCA.Presentation">
-      <HintPath>..\..\..\Desktop\FiscaRuntime\kernel\FISCA.Presentation.dll</HintPath>
+      <HintPath>..\..\..\Desktop\ischool desktop\kernel\FISCA.Presentation.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="FISCA.UDT">
-      <HintPath>..\..\..\Desktop\FiscaRuntime\kernel\FISCA.UDT.dll</HintPath>
+      <HintPath>..\..\..\Desktop\ischool desktop\kernel\FISCA.UDT.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="K12.Data">
-      <HintPath>..\..\..\Desktop\FiscaRuntime\modules\JHCore\K12.Data.dll</HintPath>
+      <HintPath>..\..\..\Desktop\ischool desktop\modules\JHCore\K12.Data.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="K12.Presentation">
-      <HintPath>..\..\..\Desktop\FiscaRuntime\modules\JHCore\K12.Presentation.dll</HintPath>
+      <HintPath>..\..\..\Desktop\ischool desktop\modules\JHCore\K12.Presentation.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="System" />

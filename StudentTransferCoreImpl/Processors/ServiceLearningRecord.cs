@@ -99,6 +99,9 @@ namespace StudentTransferCoreImpl.Processors
             }
             try
             {
+                string cmd = string.Format(@"delete from $k12.service.learning.record where ref_student_id='{0}'", StudentId);
+                Update.Execute(cmd);
+
                 List<string> result = SLRecords.SaveAll();
             }
             catch (Exception e)
