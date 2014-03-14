@@ -152,6 +152,13 @@ namespace StudentTransferCoreImpl.TransferOut
                 return null;
             }
 
+            // 檢查異動日期輸入
+            if (dtUpdateDate.IsEmpty)
+            {
+                MessageBox.Show("異動日期必填！");
+                return null;
+            }
+
             try
             {
                 string stuid = Arguments[Consts.StudentID] + "";

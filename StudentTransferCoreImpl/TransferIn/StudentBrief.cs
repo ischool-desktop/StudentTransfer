@@ -473,12 +473,35 @@ namespace StudentTransferCoreImpl.TransferIn
                 {
                     paddress = paddress.Element("Address");
 
-                    paddress.Element("ZipCode").Value = txtZipCode.Text;
-                    paddress.Element("County").Value = cmbCounty.Text;
-                    paddress.Element("Town").Value = cmbTown.Text;
-                    paddress.Element("District").Value = txtDistrict.Text;
-                    paddress.Element("Area").Value = txtArea.Text;
-                    paddress.Element("DetailAddress").Value = txtDetail.Text;
+                    if (paddress.Element("ZipCode")==null)
+                        paddress.Add(new XElement("ZipCode", txtZipCode.Text));
+                    else
+                        paddress.Element("ZipCode").Value = txtZipCode.Text;
+
+                    if (paddress.Element("County")==null)
+                        paddress.Add(new XElement("County", cmbCounty.Text));
+                    else
+                        paddress.Element("County").Value = cmbCounty.Text;
+
+                    if (paddress.Element("Town")==null)
+                        paddress.Add(new XElement("Town", cmbTown.Text));
+                    else
+                        paddress.Element("Town").Value = cmbTown.Text;
+
+                    if (paddress.Element("District")==null)
+                        paddress.Add(new XElement("District", txtDistrict.Text));
+                    else
+                        paddress.Element("District").Value = txtDistrict.Text;
+
+                    if (paddress.Element("Area")==null)
+                        paddress.Add(new XElement("Area", txtArea.Text));
+                    else
+                        paddress.Element("Area").Value = txtArea.Text;
+
+                    if (paddress.Element("DetailAddress")==null)
+                        paddress.Add(new XElement("DetailAddress", txtDetail.Text));
+                    else
+                        paddress.Element("DetailAddress").Value = txtDetail.Text;
                 }
                 else
                 {
@@ -488,7 +511,7 @@ namespace StudentTransferCoreImpl.TransferIn
                     paddress.Add(new XElement("Town", cmbTown.Text));
                     paddress.Add(new XElement("District", txtDistrict.Text));
                     paddress.Add(new XElement("Area", txtArea.Text));
-                    paddress.Add(new XElement("DetailAddress", txtZipCode.Text));
+                    paddress.Add(new XElement("DetailAddress", txtDetail.Text));
 
                     XmlData
                         .Element("StudentComplete")
