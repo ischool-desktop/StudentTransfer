@@ -34,7 +34,7 @@ namespace StudentTransferCoreImpl
             ExportDisciplineMeritScore(Book.Worksheets[Book.Worksheets.Add()]); //匯出獎勵明細
             ExportDisciplineDemeritScore(Book.Worksheets[Book.Worksheets.Add()]); //匯出懲戒明細
             ExportAttendanceScore(Book.Worksheets[Book.Worksheets.Add()]); //匯出懲戒明細
-
+            Book.Worksheets[0].AutoFitColumns();
             return Book;
         }
 

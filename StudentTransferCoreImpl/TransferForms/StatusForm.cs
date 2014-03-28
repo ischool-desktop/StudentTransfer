@@ -14,6 +14,8 @@ using FISCA.DSAClient;
 using FISCA.LogAgent;
 using FISCA.Presentation.Controls;
 using FISCA.UDT;
+using Aspose.Cells;
+using System.IO;
 
 namespace StudentTransferCoreImpl
 {
@@ -630,9 +632,24 @@ order by $st_transferin.uid desc", chkAllIn.Checked ? "" : "where $st_transferin
 
                     List<TransferInRecord> records = new AccessHelper().Select<TransferInRecord>(new string[] { item.UID });
                     if (records.Count > 0)
-                        new ExportToExcel(XElement.Parse(records[0].ModifiedContent)).Export();
+                    {
+                        Workbook wb = new ExportToExcel(XElement.Parse(records[0].ModifiedContent)).Export();
+                        string reportName = "資料轉移總表";
+                        string path = System.Windows.Forms.Application.StartupPath + "\\Reports\\" + reportName + ".xls";
+                        int i = 1;
+                        while (File.Exists(path))
+                        {
+                            path = System.Windows.Forms.Application.StartupPath + "\\Reports\\" + reportName + i + ".xls";
+                            i++;
+                        }
+                        wb.Save(path, FileFormatType.Excel2003);
+                        System.Diagnostics.Process.Start(path);
+                    }
                     else
+                    {
                         MessageBox.Show("沒有資料!", "線上轉學功能提醒");
+                    }
+                        
                 }
             }
             catch (Exception ex)
