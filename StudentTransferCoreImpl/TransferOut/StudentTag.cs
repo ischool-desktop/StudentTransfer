@@ -72,13 +72,13 @@ namespace StudentTransferCoreImpl.TransferOut
                             row.Cells[0].Value = true;
                     }
                 }
-                dynamic ethnicgroup = (XmlObject)remark.Element("EthnicGroup");
+                dynamic ethnicgroup = (DynamicXmlObject)remark.Element("EthnicGroup");
                 foreach (DataGridViewRow row in dgvEthnicGroup.Rows)
                 {
                     if ((row.Cells[0].Value + "") == ethnicgroup)
                         row.Selected = true;
                 }
-                dynamic ethnicplace = (XmlObject)remark.Element("EthnicPlace");
+                dynamic ethnicplace = (DynamicXmlObject)remark.Element("EthnicPlace");
                 foreach (DataGridViewRow row in dgvPlace.Rows)
                 {
                     if ((row.Cells[0].Value + "") == ethnicplace)

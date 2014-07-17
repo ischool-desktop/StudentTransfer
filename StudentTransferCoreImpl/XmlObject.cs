@@ -13,7 +13,7 @@ namespace Campus
     /// <summary>
     /// 提供動態的 Xml 資料產生機制。
     /// </summary>
-    public sealed class XmlObject : DynamicObject
+    public sealed class DynamicXmlObject : DynamicObject
     {
         #region 核心機制
 
@@ -46,7 +46,7 @@ namespace Campus
                 return;
 
             UniqueMode = false;
-            XmlObject newobj = new XmlObject(Name());
+            DynamicXmlObject newobj = new DynamicXmlObject(Name());
             newobj._string_value = _string_value;
             newobj._children = _children;
             newobj._xml_record_dictionary = _xml_record_dictionary;
@@ -56,10 +56,10 @@ namespace Campus
         #endregion
 
         #region Overrides
-        private XmlObject EnsureOneAndReturnLast()
+        private DynamicXmlObject EnsureOneAndReturnLast()
         {
             if (XmlRecordList.Count <= 0)
-                XmlRecordList.Add(new XmlObject(Name()));
+                XmlRecordList.Add(new DynamicXmlObject(Name()));
 
             return XmlRecordList[Count() - 1];
         }
@@ -131,29 +131,29 @@ namespace Campus
         #region XmlObject
 
         #region 自動轉型
-        public static implicit operator XmlObject(string xmlData)
+        public static implicit operator DynamicXmlObject(string xmlData)
         {
             XElement xelm = XElement.Parse(xmlData);
-            return XmlObject.Parse(xelm);
+            return DynamicXmlObject.Parse(xelm);
         }
 
-        public static implicit operator XmlObject(XElement xml)
+        public static implicit operator DynamicXmlObject(XElement xml)
         {
             if (xml == null)
                 throw new ArgumentException("無法將 Null 物件轉型成 XmlObject.");
 
-            return XmlObject.Parse(xml);
+            return DynamicXmlObject.Parse(xml);
         }
 
-        public static implicit operator XmlObject(XmlElement xml)
+        public static implicit operator DynamicXmlObject(XmlElement xml)
         {
             if (xml == null)
                 throw new ArgumentException("無法將 Null 物件轉型成 XmlObject.");
 
-            return XmlObject.Parse(xml.OuterXml);
+            return DynamicXmlObject.Parse(xml.OuterXml);
         }
 
-        public static implicit operator string(XmlObject obj)
+        public static implicit operator string(DynamicXmlObject obj)
         {
             if (obj == null)
                 return string.Empty;
@@ -167,7 +167,7 @@ namespace Campus
         /// 產生 XData 物件。
         /// </summary>
         /// <returns></returns>
-        public static XmlObject Parse(string xml)
+        public static DynamicXmlObject Parse(string xml)
         {
             return Parse(XElement.Parse(xml));
         }
@@ -177,9 +177,9 @@ namespace Campus
         /// </summary>
         /// <param name="xml"></param>
         /// <returns></returns>
-        public static XmlObject Parse(XElement xml)
+        public static DynamicXmlObject Parse(XElement xml)
         {
-            dynamic root = new XmlObject(xml.Name.LocalName);
+            dynamic root = new DynamicXmlObject(xml.Name.LocalName);
 
             foreach (XAttribute att in xml.Attributes())
                 root["@" + att.Name.LocalName] = att.Value;
@@ -201,12 +201,12 @@ namespace Campus
                 {
                     if (processed.ContainsKey(elmName)) continue;
 
-                    root[elmName] = XmlObject.ParseList(xml.Elements(elmName));
+                    root[elmName] = DynamicXmlObject.ParseList(xml.Elements(elmName));
                 }
                 else
                 {
                     if (elm.HasAttributes || elm.HasElements)
-                        root[elmName] = XmlObject.Parse(elm);
+                        root[elmName] = DynamicXmlObject.Parse(elm);
                     else
                         root[elmName] = elm.Value;
                 }
@@ -217,7 +217,7 @@ namespace Campus
         }
         #endregion
 
-        private XmlObject()
+        private DynamicXmlObject()
         {
             UniqueMode = true;
             _name = MemberName.Empty;
@@ -227,7 +227,7 @@ namespace Campus
         /// 建立。
         /// </summary>
         /// <param name="name">Element 名稱。</param>
-        public XmlObject(string name)
+        public DynamicXmlObject(string name)
             : this()
         {
             _name = new MemberName(name);
@@ -235,24 +235,24 @@ namespace Campus
 
         private string _string_value = string.Empty;
 
-        private Dictionary<MemberName, XmlObject> _children = null;
-        private Dictionary<MemberName, XmlObject> ChildrenDictionary
+        private Dictionary<MemberName, DynamicXmlObject> _children = null;
+        private Dictionary<MemberName, DynamicXmlObject> ChildrenDictionary
         {
             get
             {
                 if (_children == null)
-                    _children = new Dictionary<MemberName, XmlObject>();
+                    _children = new Dictionary<MemberName, DynamicXmlObject>();
                 return _children;
             }
         }
 
-        private Dictionary<MemberName, XmlObject> _xml_record_dictionary = null;
-        private Dictionary<MemberName, XmlObject> XmlRecordDictionary
+        private Dictionary<MemberName, DynamicXmlObject> _xml_record_dictionary = null;
+        private Dictionary<MemberName, DynamicXmlObject> XmlRecordDictionary
         {
             get
             {
                 if (_xml_record_dictionary == null)
-                    _xml_record_dictionary = new Dictionary<MemberName, XmlObject>();
+                    _xml_record_dictionary = new Dictionary<MemberName, DynamicXmlObject>();
                 return _xml_record_dictionary;
             }
         }
@@ -319,7 +319,7 @@ namespace Campus
                 if (!UniqueMode)
                 {
                     writer.WriteStartElement("_auto_generate_root");
-                    foreach (XmlObject each in XmlRecordList)
+                    foreach (DynamicXmlObject each in XmlRecordList)
                         each.Write(writer);
                     writer.WriteEndElement();
                 }
@@ -347,19 +347,19 @@ namespace Campus
             else
             {
                 writer.WriteStartElement(Name() == null ? "_UndefineName" : Name());
-                foreach (KeyValuePair<MemberName, XmlObject> each in ChildrenDictionary)
+                foreach (KeyValuePair<MemberName, DynamicXmlObject> each in ChildrenDictionary)
                 {
                     if (each.Value.UniqueMode)
                         each.Value.Write(writer);
                     else
                     {
-                        foreach (XmlObject record in each.Value.XmlRecordList)
+                        foreach (DynamicXmlObject record in each.Value.XmlRecordList)
                             record.Write(writer);
                     }
                 }
-                foreach (KeyValuePair<MemberName, XmlObject> xeach in XmlRecordDictionary)
+                foreach (KeyValuePair<MemberName, DynamicXmlObject> xeach in XmlRecordDictionary)
                 {
-                    foreach (XmlObject each in xeach.Value.Each())
+                    foreach (DynamicXmlObject each in xeach.Value.Each())
                         each.Write(writer);
                 }
                 writer.WriteEndElement();
@@ -389,19 +389,19 @@ namespace Campus
                 return;
             }
 
-            if (value is XmlObject)
+            if (value is DynamicXmlObject)
             {
-                XmlObject dl = value as XmlObject;
+                DynamicXmlObject dl = value as DynamicXmlObject;
                 dl.SetName(name.FullName);
                 XmlRecordDictionary[name] = dl;
             }
             else
             {
-                XmlObject newValue = null;
+                DynamicXmlObject newValue = null;
 
-                if (value is XmlObject)
+                if (value is DynamicXmlObject)
                 {
-                    newValue = value as XmlObject;
+                    newValue = value as DynamicXmlObject;
 
                     if (name.IsAttribute && !newValue._name.IsAttribute)
                         throw new ArgumentException("這個節點只允許文字資料。");
@@ -411,16 +411,16 @@ namespace Campus
                     newValue._name = name;
                 }
                 else
-                    newValue = new XmlObject(name.FullName) { _string_value = value + "" };
+                    newValue = new DynamicXmlObject(name.FullName) { _string_value = value + "" };
 
                 ChildrenDictionary[name] = newValue;
             }
         }
 
-        private XmlObject GetValue(MemberName name)
+        private DynamicXmlObject GetValue(MemberName name)
         {
             if (_children == null)
-                _children = new Dictionary<MemberName, XmlObject>();
+                _children = new Dictionary<MemberName, DynamicXmlObject>();
 
             if (!_children.ContainsKey(name))
                 SetValue(name, string.Empty);
@@ -428,13 +428,13 @@ namespace Campus
             return _children[name];
         }
 
-        private XmlObject GetValues(MemberName name)
+        private DynamicXmlObject GetValues(MemberName name)
         {
             if (_xml_record_dictionary == null)
-                _xml_record_dictionary = new Dictionary<MemberName, XmlObject>();
+                _xml_record_dictionary = new Dictionary<MemberName, DynamicXmlObject>();
 
             if (!_xml_record_dictionary.ContainsKey(name))
-                SetValue(name, new XmlObject());
+                SetValue(name, new DynamicXmlObject());
 
             return _xml_record_dictionary[name];
         }
@@ -442,29 +442,29 @@ namespace Campus
         #endregion
 
         #region XmlObjectList
-        private List<XmlObject> XmlRecordList = new List<XmlObject>();
+        private List<DynamicXmlObject> XmlRecordList = new List<DynamicXmlObject>();
 
-        internal static XmlObject ParseList(IEnumerable<XElement> xmlList)
+        internal static DynamicXmlObject ParseList(IEnumerable<XElement> xmlList)
         {
-            XmlObject result = new XmlObject() { UniqueMode = false };
+            DynamicXmlObject result = new DynamicXmlObject() { UniqueMode = false };
             result.SetName(xmlList.First().Name.LocalName);
 
             foreach (XElement elm in xmlList)
-                result.XmlRecordList.Add(XmlObject.Parse(elm));
+                result.XmlRecordList.Add(DynamicXmlObject.Parse(elm));
 
             return result;
         }
 
         #region Public Interface
-        public XmlObject New()
+        public DynamicXmlObject New()
         {
             ToDuplicateMode();
-            XmlRecordList.Add(new XmlObject(Name()));
+            XmlRecordList.Add(new DynamicXmlObject(Name()));
 
             return XmlRecordList[Count() - 1];
         }
 
-        public XmlObject this[int index]
+        public DynamicXmlObject this[int index]
         {
             get
             {
@@ -491,7 +491,7 @@ namespace Campus
             XmlRecordList.Clear();
         }
 
-        public IEnumerable<XmlObject> Each()
+        public IEnumerable<DynamicXmlObject> Each()
         {
             ToDuplicateMode();
             return XmlRecordList;

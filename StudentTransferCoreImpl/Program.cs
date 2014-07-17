@@ -21,6 +21,8 @@ namespace StudentTransferCoreImpl
 
         public const string Hsinchu = "Hsinchu";
 
+      
+
         #region Wizard Codes
         public static string FC_TransferOutWizard = "ischool/國中系統/共同/學籍/學生/線上轉學精靈-轉出";
 
@@ -33,9 +35,12 @@ namespace StudentTransferCoreImpl
         private static string TransferPermission = "37a3eab1-66f2-478f-aec3-9ce9dabfa107";
         #endregion
 
-        [MainMethod]
+        //[MainMethod]
+         [ApplicationMain()]
         public static void Main()
         {
+            
+
             //FIE987D3@chhs.hcc.edu.tw
             //FIE987D3@http://www.ischool.com.tw/is4/chhs.hcc.edu.tw
 
@@ -198,9 +203,19 @@ namespace StudentTransferCoreImpl
                 return new TransferIn.Welcome(args).ShowWizardDialog();
             });
 
+             
             Features.Register(transferIns[transferInStep++], args =>
             {
-                return new TransferIn.StudentBrief(args).ShowWizardDialog();
+                 IStudentBriefBaseAPI item1 = FISCA.InteractionService.DiscoverAPI<IStudentBriefBaseAPI>();
+
+                if (item1 != null)
+                {
+                    return item1.CreateForm(args).ShowWizardDialog();
+                }
+                else
+                {
+                    return new TransferIn.StudentBrief(args).ShowWizardDialog();
+                }
             });
 
             Features.Register(transferIns[transferInStep++], args =>

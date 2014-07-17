@@ -206,7 +206,7 @@ order by $st_transferin.uid desc", chkAllIn.Checked ? "" : "where $st_transferin
         #endregion
 
         #region TransferInItem
-        internal class TransferInItem : INotifyPropertyChanged
+        public class TransferInItem : INotifyPropertyChanged
         {
             public TransferInItem(DataRow row)
             {

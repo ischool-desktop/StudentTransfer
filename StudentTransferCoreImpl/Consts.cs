@@ -6,7 +6,7 @@ using FISCA.Data;
 
 namespace StudentTransferCoreImpl
 {
-    internal class Consts
+    public class Consts
     {
         public const string StudentID = "StudentID";
 

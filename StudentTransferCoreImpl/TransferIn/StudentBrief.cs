@@ -65,7 +65,7 @@ namespace StudentTransferCoreImpl.TransferIn
             {
                 Record = Arguments[Consts.TransferInRecord] as TransferInRecord;
                 XmlData = Arguments[Consts.XmlData] as XElement;
-                dynamic briefSection = (XmlObject)XmlData.Element("Student");
+                dynamic briefSection = (DynamicXmlObject)XmlData.Element("Student");
                 //取得地址資料
                 dynamic permanentAddress = GetAddressData();
                 //<PermanentAddress>
@@ -172,9 +172,9 @@ namespace StudentTransferCoreImpl.TransferIn
                 temp = temp.Element("Address");
 
             if (temp == null)
-                return new XmlObject("Address");
+                return new DynamicXmlObject("Address");
             else
-                return (XmlObject)temp;
+                return (DynamicXmlObject)temp;
         }
 
         protected override void OnRunningChanged()
