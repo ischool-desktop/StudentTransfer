@@ -247,6 +247,7 @@ namespace StudentTransferCoreImpl
             TransferProcessor.Register(new StudentTransferCoreImpl.Processors.MoralScoreDetail());
             TransferProcessor.Register(new StudentTransferCoreImpl.Processors.TheCadreRecord());
             TransferProcessor.Register(new StudentTransferCoreImpl.Processors.ServiceLearningRecord());
+            TransferProcessor.Register(new StudentTransferCoreImpl.Processors.FitnessRecord());
             #endregion
 
             //檢查是否有需要使用者確認的狀態
