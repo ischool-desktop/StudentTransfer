@@ -129,7 +129,7 @@ namespace StudentTransferCoreImpl.Processors
             if (each.Element("ScoreInfo") != null)
             {
                 foreach (XElement score in each.Element("ScoreInfo").Elements())
-                    scoreInfo.AppendLine(score.ToString());
+                    scoreInfo.AppendLine(score.ToString().Replace("'","''"));
             }
 
             return string.Format(cmd, StudentId, schoolYear, semester, gradeYear, scoreInfo);
@@ -143,7 +143,7 @@ namespace StudentTransferCoreImpl.Processors
             if (each.NewDataRecord.Element("ScoreInfo") != null)
             {
                 foreach (XElement score in each.NewDataRecord.Element("ScoreInfo").Elements())
-                    scoreInfo.AppendLine(score.ToString());
+                    scoreInfo.AppendLine(score.ToString().Replace("'","''"));
             }
 
             return string.Format(cmd, scoreInfo, each.SID);

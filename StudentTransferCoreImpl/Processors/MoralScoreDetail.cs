@@ -128,7 +128,7 @@ namespace StudentTransferCoreImpl.Processors
             else
                 occurDate = string.Format("'{0}'", occurDate);
 
-            string reason = each.Element("Reason").Value;
+            string reason = each.Element("Reason").Value.Replace("'", "''");
             string type = each.Element("Type").Value;
             if (string.IsNullOrWhiteSpace(type))
                 type = "null";
@@ -144,7 +144,7 @@ namespace StudentTransferCoreImpl.Processors
 
             string detail = "";
             if (each.Element("Detail").FirstNode != null)
-                detail = each.Element("Detail").FirstNode.ToString();
+                detail = each.Element("Detail").FirstNode.ToString().Replace("'", "''");
 
             return string.Format(cmd, schoolYear, semester, occurDate, reason, detail, StudentId, type, meritFlag, registerDate);
         }
@@ -165,7 +165,7 @@ namespace StudentTransferCoreImpl.Processors
 
             string detail = "";
             if (each.Element("Detail").FirstNode != null)
-                detail = each.Element("Detail").FirstNode.ToString();
+                detail = each.Element("Detail").FirstNode.ToString().Replace("'","''");
 
             return string.Format(cmd, StudentId, schoolYear, semester, occurDate, detail);
         }
