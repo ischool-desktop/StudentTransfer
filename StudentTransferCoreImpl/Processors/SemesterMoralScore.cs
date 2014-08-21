@@ -130,15 +130,15 @@ namespace StudentTransferCoreImpl.Processors
 
             string textScore = "";
             if (each.Element("TextScore").FirstNode != null)
-                textScore = each.Element("TextScore").FirstNode.ToString();
+                textScore = each.Element("TextScore").FirstNode.ToString().Replace("'", "''");
 
             string initSummary = "";
             if (each.Element("InitialSummary").FirstNode != null)
-                initSummary = each.Element("InitialSummary").FirstNode.ToString();
+                initSummary = each.Element("InitialSummary").FirstNode.ToString().Replace("'", "''");
 
             string summary = "";
             if (each.Element("Summary").FirstNode != null)
-                summary = each.Element("Summary").FirstNode.ToString();
+                summary = each.Element("Summary").FirstNode.ToString().Replace("'", "''");
 
             return string.Format(cmd, StudentId, schoolYear, semester, textScore, initSummary, summary);
         }
@@ -149,15 +149,15 @@ namespace StudentTransferCoreImpl.Processors
 
             string textScore = "";
             if (each.NewDataRecord.Element("TextScore").FirstNode != null)
-                textScore = each.NewDataRecord.Element("TextScore").FirstNode.ToString();
+                textScore = each.NewDataRecord.Element("TextScore").FirstNode.ToString().Replace("'", "''");
 
             string initSummary = "";
             if (each.NewDataRecord.Element("InitialSummary").FirstNode != null)
-                initSummary = each.NewDataRecord.Element("InitialSummary").FirstNode.ToString();
+                initSummary = each.NewDataRecord.Element("InitialSummary").FirstNode.ToString().Replace("'", "''");
 
             string summary = "";
             if (each.NewDataRecord.Element("Summary").FirstNode != null)
-                summary = each.NewDataRecord.Element("Summary").FirstNode.ToString();
+                summary = each.NewDataRecord.Element("Summary").FirstNode.ToString().Replace("'", "''"); 
 
             return string.Format(cmd, textScore, initSummary, summary, each.SID);
         }
