@@ -342,7 +342,9 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\jh.xml" />
+    <None Include="Resources\jh.xml">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\綜合資料轉移單.doc" />
