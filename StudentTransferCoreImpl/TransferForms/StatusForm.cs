@@ -668,6 +668,7 @@ order by $st_transferin.uid desc", chkAllIn.Checked ? "" : "where $st_transferin
         {
             btnArchive.Enabled = false;
             btnUnArchive.Enabled = false;
+            btnStatus_1.Enabled = false;
 
             if (dgvTransferOut.SelectedRows.Count > 0)
             {
@@ -684,6 +685,10 @@ order by $st_transferin.uid desc", chkAllIn.Checked ? "" : "where $st_transferin
                     //只有封存狀態才可以解除封存
                     if (item.Status == 99)
                        btnUnArchive.Enabled = true;
+
+                    // 只有在待確認才能恢復成待轉出
+                    if (item.Status == 2 || item.Status == 3)
+                        btnStatus_1.Enabled = true;
                 }
             }
         }
@@ -691,6 +696,100 @@ order by $st_transferin.uid desc", chkAllIn.Checked ? "" : "where $st_transferin
         private void OutMenu_Click(object sender, EventArgs e)
         {
         
+        }
+
+        private void btnStatus_1_Click(object sender, EventArgs e)
+        {
+            // 功能主要將Status 2 的 轉成 Status 1
+            if(dgvTransferOut.SelectedRows.Count == 1)
+            {
+                TransferOutItem item = dgvTransferOut.SelectedRows[0].DataBoundItem as TransferOutItem;
+                if(item != null)
+                {
+                    // 待確認
+                    if (item.Status == 2 || item.Status == 3)
+                    {
+                        // 取得 UDT 資料
+                        AccessHelper accHelper = new AccessHelper();
+                        string qry="uid='"+item.UID+"'";
+                        List<TransferOutRecord> RecList = accHelper.Select<TransferOutRecord>(qry);
+                        if(RecList.Count ==1)
+                        {
+                            if (MsgBox.Show("當按「是」將"+item.StatusString+"狀態恢復成待轉出。", "恢復成待轉出", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) == System.Windows.Forms.DialogResult.Yes)
+                            {
+                                TransferOutRecord Rec = RecList[0];
+                                Rec.Status = 1;
+                                Rec.TransferTarget = null;
+                                Rec.AcceptToken = null;
+                                Rec.Save();
+
+                                StringBuilder strLog = new StringBuilder();
+
+                                strLog.AppendLine("班級,姓名,轉入校,處理進度,最後更新時間");
+                                strLog.AppendLine(item.ClassName + "," + item.Name + "," + item.TransferTarget + "," + item.StatusString + "," + item.Trace);
+
+                                ApplicationLog.Log("線上轉學模組", "轉出學生清單-恢復成待轉出", strLog.ToString());
+                                ReloadGrid();
+                            }
+                        }                        
+                    }
+                }
+            }
+        }
+
+        private void btnInDel_Click(object sender, EventArgs e)
+        {
+            // 可以刪除待確認資料
+            if(dgvTransferIn.SelectedRows.Count ==1)
+            {
+                TransferInItem item = dgvTransferIn.SelectedRows[0].DataBoundItem as TransferInItem;
+                if(item !=null)
+                {
+                    // 待確認，在轉入狀態待確認 status =1
+                    if(item.Status == 1)
+                    {
+                        // 取得 UDT 資料
+                        AccessHelper accHelper = new AccessHelper();
+                        string qry = "uid='" + item.UID + "'";
+                        List<TransferInRecord> RecList = accHelper.Select<TransferInRecord>(qry);
+                        if (RecList.Count == 1)
+                        {
+                            if (MsgBox.Show("當按「是」將刪除此筆待確認資料。", "刪除待確認資料", MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2) == System.Windows.Forms.DialogResult.Yes)
+                            {
+                                TransferInRecord Rec = RecList[0];
+                                Rec.Deleted = true;
+                                Rec.Save();
+
+                                StringBuilder strLog = new StringBuilder();
+
+                                strLog.AppendLine("班級,姓名,來源,處理進度,最後更新時間");
+                                strLog.AppendLine(item.ClassName + "," + item.Name + "," + item.TransferSource + "," + item.StatusString + "," + item.Trace);
+
+                                ApplicationLog.Log("線上轉學模組", "轉入學生清單-刪除待確認資料", strLog.ToString());
+                                ReloadGrid();
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        private void InMenu_PopupOpen(object sender, DevComponents.DotNetBar.PopupOpenEventArgs e)
+        {
+            btnInDel.Enabled = false;
+            if (dgvTransferIn.SelectedRows.Count > 0)
+            {
+                List<TransferInItem> TransferIns = new List<TransferInItem>();
+
+                foreach (DataGridViewRow Row in dgvTransferIn.SelectedRows)
+                {
+                    TransferInItem item = Row.DataBoundItem as TransferInItem;
+
+                    //只有在待確認才能刪除
+                    if (item.Status == 1)
+                        btnInDel.Enabled = true;
+                }
+            }
         }
     }
 }
