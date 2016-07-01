@@ -112,6 +112,60 @@ namespace StudentTransferCoreImpl.Processors
             RTOut.WriteSql(sb.ToString());
 
             Update.Execute(cmds);
+
+            #region 檢查缺曠轉入後資料是否存在
+            bool AttendanceTypeError = false;
+            bool AttendancePeriodError = false;
+
+            // 取得系統內缺曠名稱
+            List<string> SysAttendanceTypeList = Utility.GetSysAttendanceTypeNameList();
+            // 取得系統內節次名稱
+            List<string> SysAttendancePeriodList = Utility.GetSysAttendancePeriodNameList();
+            
+            // 取得 學生缺曠資料
+            string query = "select detail from attendance where ref_student_id=" + StudentId;
+            FISCA.Data.QueryHelper qh = new FISCA.Data.QueryHelper();
+            DataTable dt = qh.Select(query);
+
+            if(dt.Rows.Count>0)
+            {
+                foreach(DataRow dr in dt.Rows)
+                {
+                    string detail = dr[0].ToString();
+                    XElement elmDetail = null;
+                    try
+                    {
+                        elmDetail = XElement.Parse(detail);
+
+                        foreach(XElement elm in elmDetail.Elements("Period"))
+                        {
+                            string period = elm.Value;
+                            string Atype = elm.Attribute("AbsenceType").Value;
+
+                            if(!SysAttendancePeriodList.Contains(period))
+                                AttendancePeriodError = true;
+
+                            if (!SysAttendanceTypeList.Contains(Atype))
+                                AttendanceTypeError = true;
+                        }
+                    }
+                    catch (Exception ex) { }
+                }
+            }
+            
+            if(AttendanceTypeError)
+            {
+                string msg = "學生缺曠假別與系統內假別設定不同，請使用系統功能[資料合理性檢查]->[學務]->[學生缺曠資料與系統假別]來調整。";
+                FISCA.Presentation.Controls.MsgBox.Show(msg, "缺曠假別不同", MessageBoxButtons.OK, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1);
+            }
+
+            if(AttendancePeriodError)
+            {
+                string msg = "學生缺曠節次與系統內節次設定不同，請使用系統功能[資料合理性檢查]->[學務]->[學生缺曠資料與系統節次]來調整。";
+                FISCA.Presentation.Controls.MsgBox.Show(msg, "缺曠節次不同", MessageBoxButtons.OK, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1);
+            }
+
+            #endregion
         }
 
         private string GenDisciplineInsertSql(XElement each)

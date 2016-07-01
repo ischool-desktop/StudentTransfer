@@ -265,6 +265,7 @@
       <DependentUpon>TransferOutStatus.cs</DependentUpon>
     </Compile>
     <Compile Include="UpdateHelper.cs" />
+    <Compile Include="Utility.cs" />
     <Compile Include="XElementHelper.cs" />
     <Compile Include="XmlObject.cs" />
   </ItemGroup>
